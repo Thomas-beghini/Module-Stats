@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphe avec tout tsais</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="./app.js"></script>
+    <style>
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(217, 223, 253);
+            margin: 20px;
+            width: 100%;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 50%;
+            margin: 20px 0;
+            width: auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+
+        .chart-summary {
+            margin-left: 20px;
+            max-width: 30%;
+        }
+
+        .error {
+            color: red;
+            display: none;
+        }
+
+        .legend-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            white-space: nowrap;
+            overflow: visible;
+            /* Assurez-vous que le texte ne soit pas coupé */
+            margin-top: 20px;
+            /* Ajouter un peu de marge au-dessus des légendes */
+        }
+
+
+        .input-group {
+            margin: 20px;
+        }
+
+        .chartjs-tooltip {
+            opacity: 0;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 3px;
+            pointer-events: none;
+            transform: translate(-50%, 0);
+            transition: all 0.1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="charts-container" class="charts-container"></div>
+    <div class="input-group">
+        <label for="chart-title">Titre du graphique:</label>
+        <input type="text" id="chart-title" placeholder="Titre du graphique" value="NB candidats crées">
+    </div>
+    <div id="color-options" class="input-group">
+        <label for="bar-colors">Couleurs des bars:</label>
+        <input type="color" class="bar-color-picker" value="#021144">
+        <input type="color" class="bar-color-picker" value="#a7d5f3">
+        <input type="color" class="bar-color-picker" value="#f7910c">
+        <input type="color" class="bar-color-picker" value="#3765fd">
+        <input type="color" class="bar-color-picker" value="#3746b4">
+        <input type="color" class="bar-color-picker" value="#a5aff7">
+        <button id="add-color-picker">Ajouter une couleur</button>
+    </div>
+    <div class="input-group">
+        <label for="charts-container-background-color">Couleur du fond du conteneur des graphiques:</label>
+        <input type="color" id="charts-container-background-color" value="#d9dffd">
+    </div>
+    <div class="input-group">
+        <label for="start-date">Date de début:</label>
+        <input type="date" id="start-date" value="2023-01-01">
+    </div>
+    <div class="input-group">
+        <label for="end-date">Date de fin:</label>
+        <input type="date" id="end-date" value="2023-12-31">
+    </div>
+    <div id="profile-checkboxes" class="input-group"></div>
+    <div id="profile-options" class="input-group">
+        <input type="text" id="profile-name" placeholder="Nom du profil">
+        <button id="add-profile">Ajouter profil</button>
+        <button id="remove-profile">Supprimer profil</button>
+        <span id="profile-error" class="error">Veuillez entrer un nom de profil valide.</span>
+    </div>
+    <div class="input-group">
+        <label for="chart-type">Type de graphique:</label>
+        <select id="chart-type">
+            <option value="bar1">Diagramme en bâton vertical </option>
+            <option value="bar2">Diagramme en bâton horyzontal </option>
+            <option value="bar3">Diagramme en bâton stack</option>
+            <option value="pie">Diagramme circulaire</option>
+            <option value="line">Diagramme linéaire</option>
+            <option value="donnut">Diagramme Donnuts</option>
+        </select>
+    </div>
+    <div id="data-options" class="input-group">
+        <label><input type="radio" name="data-option" value="daily"> Données journalières</label>
+        <label><input type="radio" name="data-option" value="weekly"> Données hebdomadaires</label>
+        <label><input type="radio" name="data-option" value="monthly" checked> Données mensuelles</label>
+        <label><input type="radio" name="data-option" value="quarterly"> Données trimestrielles</label>
+    </div>
+    <div class="input-group">
+        <button id="validate-chart">Valider</button>
+    </div>
+    <button id="saveAsPDF" style="position: fixed; bottom: 10px; left: 10px;">Save as PDF</button>
+    <div id="chartjs-tooltip" class="chartjs-tooltip"></div>
+</body>
+
+</html>
